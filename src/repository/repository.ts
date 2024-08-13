@@ -8,4 +8,9 @@ interface Repository<T> {
      * @param id
      */
     get(id: any): Promise<T>;
+    /**
+     * Insert a new record
+     * @param record
+     */
+    insert(record: T): Promise<T>;
 }

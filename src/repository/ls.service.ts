@@ -11,13 +11,12 @@ export class LocalStorageRepository<T extends Schema> implements Repository<T> {
     constructor(model: Model<T>) {
         this.model = model;
     }
-
     all(): Promise<T[]> {
         return new Promise((resolve, reject) => {
             try {
-                const records = this.model.list();
+                const result = this.model.list();
 
-                resolve(records);
+                resolve(result);
             } catch (e) {
                 reject(e);
             }
@@ -26,9 +25,20 @@ export class LocalStorageRepository<T extends Schema> implements Repository<T> {
     get(id: any): Promise<T> {
         return new Promise((resolve, reject) => {
             try {
-                const record = this.model.get(id);
+                const result = this.model.get(id);
 
-                resolve(record);
+                resolve(result);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+    insert(record: T): Promise<T> {
+        return new Promise((resolve, reject) => {
+            try {
+                const result = this.model.create(record);
+
+                resolve(result);
             } catch (e) {
                 reject(e);
             }
