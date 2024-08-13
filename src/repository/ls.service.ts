@@ -5,7 +5,9 @@ if (typeof window === "undefined") {
     global.localStorage = new LocalStorage("./data");
 }
 
-export class LocalStorageRepository<T extends Schema> implements Repository<T> {
+export abstract class LocalStorageRepository<T extends Schema>
+    implements Repository<T>
+{
     readonly model: Model<T>;
 
     constructor(model: Model<T>) {
