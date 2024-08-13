@@ -1,28 +1,43 @@
 import { IncomingMessage, ServerResponse } from "http";
+import { URL } from "url";
+import { userController } from "../components/user";
+import { baseUrl } from "../config.ts/server";
 
 export function get(req: IncomingMessage, res: ServerResponse) {
-    const url = req.url?.split("/");
+    const url = new URL(req.url!, baseUrl);
+    const urlSegments = url.pathname.split("/");
 
     res.setHeader("Content-Type", "application/json");
     if (!url) {
         res.end();
         return;
     }
+    console.log(urlSegments);
 
     const result = {};
-    if (url[1]) {
-        const model = url[1];
+    let model;
+    let id;
+    if (urlSegments[1]) {
+        model = urlSegments[1];
         Object.assign(result, {
             model,
         });
-        if (url[2]) {
-            const id = url[2];
+        if (urlSegments[2]) {
+            id = urlSegments[2];
             Object.assign(result, {
                 id,
             });
         }
     }
 
-    res.write(JSON.stringify(result));
-    res.end();
+    if (model === "users") {
+        if (id) {
+            userController.get(req, res);
+        } else {
+            userController.list(req, res);
+        }
+    } else {
+        res.write(JSON.stringify(result));
+        res.end();
+    }
 }
