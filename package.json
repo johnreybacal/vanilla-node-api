@@ -1,0 +1,15 @@
+{
+    "name": "vanilla-node-api",
+    "version": "0.0.0",
+    "description": "RESTful API written in vanilla NodeJS",
+    "main": "serve.ts",
+    "scripts": {
+        "serve": "npx tsx --env-file=.env serve.ts",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Johnrey Bacal",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^22.2.0"
+    }
+}
