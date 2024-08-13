@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
+import { userController } from "../components/user";
 
 export function post(req: IncomingMessage, res: ServerResponse) {
     const url = req.url?.split("/");
@@ -9,11 +10,11 @@ export function post(req: IncomingMessage, res: ServerResponse) {
         return;
     }
 
-    const result = {};
     if (url[1]) {
         const model = url[1];
-    }
 
-    res.write(JSON.stringify(result));
-    res.end();
+        if (model === "users") {
+            userController.insert(req, res);
+        }
+    }
 }
