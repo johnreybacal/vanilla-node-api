@@ -3,12 +3,13 @@ import { RestControllerInterface } from "./rest/controller.interface";
 export class ControllerManager {
     static #instance: ControllerManager;
 
-    private constructor() {}
+    private constructor() {
+        this.resouceMapping = {};
+    }
 
     public static get instance() {
         if (!ControllerManager.#instance) {
             ControllerManager.#instance = new ControllerManager();
-            ControllerManager.#instance.resouceMapping = {};
         }
 
         return ControllerManager.#instance;
