@@ -1,7 +1,7 @@
+import { userController } from "@/components/user";
+import { baseUrl } from "@/config.ts/server";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
-import { userController } from "../components/user";
-import { baseUrl } from "../config.ts/server";
 
 export function get(req: IncomingMessage, res: ServerResponse) {
     const url = new URL(req.url!, baseUrl);

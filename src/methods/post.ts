@@ -1,5 +1,5 @@
+import { userController } from "@/components/user";
 import { IncomingMessage, ServerResponse } from "http";
-import { userController } from "../components/user";
 
 export function post(req: IncomingMessage, res: ServerResponse) {
     const url = req.url?.split("/");
