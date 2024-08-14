@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { userController } from "./components/user";
-import { baseUrl } from "./config.ts/server";
+import { baseUrl } from "./config/server";
 import { Request } from "./types/request";
 
 export const server = createServer((req: Request, res) => {

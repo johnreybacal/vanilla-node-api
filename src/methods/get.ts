@@ -1,5 +1,5 @@
 import { userController } from "@/components/user";
-import { baseUrl } from "@/config.ts/server";
+import { baseUrl } from "@/config/server";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
 
