@@ -12,7 +12,6 @@ export function get(req: IncomingMessage, res: ServerResponse) {
         res.end();
         return;
     }
-    console.log(urlSegments);
 
     const result = {};
     let model;
