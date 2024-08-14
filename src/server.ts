@@ -1,9 +1,12 @@
 import { createServer } from "node:http";
-import { userController } from "./components/user";
+import { registerComponents } from "./components/register";
 import { baseUrl } from "./config/server";
+import { ControllerManager } from "./controllerManager";
 import { Request } from "./types/request";
 
 export const server = createServer((req: Request, res) => {
+    registerComponents();
+
     const method = req.method;
     const url = new URL(req.url!, baseUrl);
     const urlSegments = url.pathname.split("/");
@@ -21,11 +24,13 @@ export const server = createServer((req: Request, res) => {
     if (!req.resource) {
         res.statusCode = 404;
         res.end();
-    } else if (method === "GET") {
+    }
+    const controller = ControllerManager.instance.getController(req.resource);
+    if (method === "GET") {
         if (req.resourceId) {
-            userController.get(req, res);
+            controller.get(req, res);
         } else {
-            userController.list(req, res);
+            controller.list(req, res);
         }
     } else {
         const chunks: any[] = [];
@@ -35,7 +40,7 @@ export const server = createServer((req: Request, res) => {
             const bodyStr = Buffer.concat(chunks).toString();
             req.body = JSON.parse(bodyStr);
 
-            userController.insert(req, res);
+            controller.insert(req, res);
         });
     }
 });
