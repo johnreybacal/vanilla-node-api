@@ -1,7 +1,8 @@
 import { Repository } from "@/repository/repository";
-import { IncomingMessage, ServerResponse } from "http";
+import { Request } from "@/types/request";
+import { ServerResponse } from "http";
 
-interface RestControllerInterface {
+export interface RestControllerInterface {
     service: Repository<any>;
 
     //GET
@@ -11,11 +12,11 @@ interface RestControllerInterface {
      * @param req
      * @param res
      */
-    list(req: IncomingMessage, res: ServerResponse);
+    list(req: Request, res: ServerResponse);
     /**
      * Get a specific resource
      */
-    get(req: IncomingMessage, res: ServerResponse);
+    get(req: Request, res: ServerResponse);
 
     //POST
     /**
@@ -23,5 +24,5 @@ interface RestControllerInterface {
      * @param req
      * @param res
      */
-    insert(req: IncomingMessage, res: ServerResponse);
+    insert(req: Request, res: ServerResponse);
 }

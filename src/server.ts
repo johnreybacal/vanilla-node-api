@@ -5,6 +5,7 @@ import { Request } from "./types/request";
 
 export const server = createServer((req, res) => {
     const method = req.method;
+    res.setHeader("Content-Type", "application/json");
 
     if (method === "GET") {
         get(req, res);
