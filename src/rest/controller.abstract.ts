@@ -57,4 +57,14 @@ export abstract class RestController implements RestControllerInterface {
             status: 201,
         });
     }
+    async delete(req: Request, res: ServerResponse) {
+        const cb = async () => {
+            return await this.service.delete(req.resourceId);
+        };
+        this.handle({
+            res,
+            cb,
+            status: 200,
+        });
+    }
 }

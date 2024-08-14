@@ -25,4 +25,12 @@ export interface RestControllerInterface {
      * @param res
      */
     insert(req: Request, res: ServerResponse);
+
+    //DELETE
+    /**
+     * Delete a resource
+     * @param req
+     * @param res
+     */
+    delete(req: Request, res: ServerResponse);
 }

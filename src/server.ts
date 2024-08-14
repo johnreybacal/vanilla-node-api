@@ -32,6 +32,8 @@ export const server = createServer((req: Request, res) => {
         } else {
             controller.list(req, res);
         }
+    } else if (method === "DELETE") {
+        controller.delete(req, res);
     } else {
         const chunks: any[] = [];
         req.on("data", (chunk) => {
@@ -40,7 +42,9 @@ export const server = createServer((req: Request, res) => {
             const bodyStr = Buffer.concat(chunks).toString();
             req.body = JSON.parse(bodyStr);
 
-            controller.insert(req, res);
+            if (method === "POST") {
+                controller.insert(req, res);
+            }
         });
     }
 });

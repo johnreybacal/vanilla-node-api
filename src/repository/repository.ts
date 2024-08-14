@@ -13,4 +13,9 @@ export interface Repository<T> {
      * @param record
      */
     insert(record: T): Promise<T>;
+    /**
+     * Delete a record
+     * @param id
+     */
+    delete(id: any): Promise<boolean>;
 }
