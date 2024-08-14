@@ -8,7 +8,8 @@
         "baseUrl": "./src",
         "paths": {
             "@/*": ["./*"]
-        }
+        },
+        "strict": true
     },
     "include": ["src/**/*"]
 }

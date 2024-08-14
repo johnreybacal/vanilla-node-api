@@ -25,7 +25,8 @@ export const server = createServer((req: Request, res) => {
         res.statusCode = 404;
         res.end();
     }
-    const controller = ControllerManager.instance.getController(req.resource);
+
+    const controller = ControllerManager.instance.getController(req.resource!);
     if (method === "GET") {
         if (req.resourceId) {
             controller.get(req, res);

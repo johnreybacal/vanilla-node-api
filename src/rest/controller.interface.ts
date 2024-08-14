@@ -12,11 +12,11 @@ export interface RestControllerInterface {
      * @param req
      * @param res
      */
-    list(req: Request, res: ServerResponse);
+    list(req: Request, res: ServerResponse): Promise<void>;
     /**
      * Get a specific resource
      */
-    get(req: Request, res: ServerResponse);
+    get(req: Request, res: ServerResponse): Promise<void>;
 
     //POST
     /**
@@ -24,7 +24,7 @@ export interface RestControllerInterface {
      * @param req
      * @param res
      */
-    insert(req: Request, res: ServerResponse);
+    insert(req: Request, res: ServerResponse): Promise<void>;
 
     //DELETE
     /**
@@ -32,5 +32,5 @@ export interface RestControllerInterface {
      * @param req
      * @param res
      */
-    delete(req: Request, res: ServerResponse);
+    delete(req: Request, res: ServerResponse): Promise<void>;
 }

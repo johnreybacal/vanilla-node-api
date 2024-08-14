@@ -3,8 +3,13 @@ import { Request } from "@/types/request";
 import { ServerResponse } from "http";
 import { RestControllerInterface } from "./controller.interface";
 
-export abstract class RestController implements RestControllerInterface {
-    service: Repository<any>;
+export abstract class RestController<T> implements RestControllerInterface {
+    service: Repository<T>;
+
+    constructor(service: Repository<T>) {
+        this.service = service;
+    }
+
     protected async handle({
         res,
         cb,
