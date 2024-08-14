@@ -1,5 +1,6 @@
 import { Model, Schema } from "localstorage-orm";
 import { LocalStorage } from "node-localstorage";
+import { Repository } from "./repository";
 
 if (typeof window === "undefined") {
     global.localStorage = new LocalStorage("./data");

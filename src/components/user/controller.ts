@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { baseUrl } from "../../config.ts/server";
+import { Repository } from "../../repository/repository";
 import { Service } from "./service";
 import { User } from "./type";
 

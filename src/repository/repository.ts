@@ -1,4 +1,4 @@
-interface Repository<T> {
+export interface Repository<T> {
     /**
      * Get all records
      */
