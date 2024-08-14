@@ -1,5 +1,6 @@
 import { baseUrl } from "@/config.ts/server";
 import { Repository } from "@/repository/repository";
+import { Request } from "@/types/request";
 import { IncomingMessage, ServerResponse } from "http";
 import { Service } from "./service";
 import { User } from "./type";
@@ -44,23 +45,13 @@ export class Controller {
         }
     }
 
-    async insert(req: IncomingMessage, res: ServerResponse) {
+    async insert(req: Request, res: ServerResponse) {
         res.setHeader("Content-Type", "application/json");
         try {
-            const chunks: any[] = [];
+            const result = await this.service.insert(req.body);
 
-            req.on("data", (chunk) => {
-                chunks.push(chunk);
-            }).on("end", async () => {
-                const bodyStr = Buffer.concat(chunks).toString();
-                const body = JSON.parse(bodyStr);
-                console.log(body);
-
-                const result = await this.service.insert(body);
-
-                res.statusCode = 200;
-                res.write(JSON.stringify(result));
-            });
+            res.statusCode = 200;
+            res.write(JSON.stringify(result));
         } catch (e) {
             res.statusCode = 500;
             res.write(JSON.stringify(e));
