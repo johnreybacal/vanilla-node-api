@@ -1,6 +1,6 @@
-import { Repository } from "@/repository/repository";
-import { Request } from "@/types/request";
 import { ServerResponse } from "http";
+import { Repository } from "../repository/repository";
+import { Request } from "../types/request";
 import { RestControllerInterface } from "./controller.interface";
 
 export abstract class RestController<T> implements RestControllerInterface {

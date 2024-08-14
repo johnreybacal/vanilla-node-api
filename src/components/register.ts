@@ -1,4 +1,4 @@
-import { ControllerManager } from "@/controllerManager";
+import { ControllerManager } from "../controllerManager";
 import { UserController } from "./user/controller";
 
 export function registerComponents() {

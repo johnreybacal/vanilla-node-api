@@ -1,4 +1,4 @@
-import { LocalStorageRepository } from "@/repository/ls.repository";
+import { LocalStorageRepository } from "../../repository/ls.repository";
 import { model } from "./model";
 import { User } from "./type";
 
