@@ -7,7 +7,7 @@ import { Request } from "./types/request";
 export const server = createServer(async (incomingMessage, res) => {
     registerComponents();
 
-    const req: Request = incomingMessage;
+    const req: Request = incomingMessage as Request;
 
     req.parseBody = async function () {
         return new Promise((resolve, reject) => {
@@ -19,7 +19,7 @@ export const server = createServer(async (incomingMessage, res) => {
                     const bodyStr = Buffer.concat(chunks).toString();
                     this.body = JSON.parse(bodyStr);
 
-                    resolve(true);
+                    resolve(this.body);
                 });
             } catch (e) {
                 reject(e);
@@ -58,10 +58,8 @@ export const server = createServer(async (incomingMessage, res) => {
         } else if (method === "DELETE") {
             await controller.delete(req, res);
         } else if (method === "POST") {
-            await req.parseBody();
             await controller.insert(req, res);
         } else if (method === "PATCH" || method === "PUT") {
-            await req.parseBody();
             await controller.update(req, res);
         }
     } catch (e) {

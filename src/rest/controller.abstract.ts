@@ -46,7 +46,7 @@ export abstract class RestController<T> implements RestControllerInterface {
     }
     async insert(req: Request, res: ServerResponse) {
         const cb = async () => {
-            return await this.service.insert(req.body);
+            return await this.service.insert(await req.parseBody());
         };
         await this.handle({
             res,
@@ -56,6 +56,7 @@ export abstract class RestController<T> implements RestControllerInterface {
     }
     async update(req: Request, res: ServerResponse): Promise<void> {
         const cb = async () => {
+            await req.parseBody();
             return await this.service.update(req.resourceId, req.body);
         };
         await this.handle({
