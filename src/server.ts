@@ -2,30 +2,14 @@ import { createServer } from "node:http";
 import { registerComponents } from "./components/register";
 import { baseUrl } from "./config/server";
 import { ControllerManager } from "./controllerManager";
-import { Request } from "./types/request";
+import { parseBody, Request } from "./types/request";
 
 export const server = createServer(async (incomingMessage, res) => {
     registerComponents();
 
     const req: Request = incomingMessage as Request;
 
-    req.parseBody = async function () {
-        return new Promise((resolve, reject) => {
-            try {
-                const chunks: any[] = [];
-                this.on("data", (chunk) => {
-                    chunks.push(chunk);
-                }).on("end", async () => {
-                    const bodyStr = Buffer.concat(chunks).toString();
-                    this.body = JSON.parse(bodyStr);
-
-                    resolve(this.body);
-                });
-            } catch (e) {
-                reject(e);
-            }
-        });
-    };
+    req.parseBody = parseBody;
 
     const method = req.method;
     const url = new URL(req.url!, baseUrl);

@@ -21,3 +21,21 @@ export interface Request extends IncomingMessage {
      */
     parseBody: () => Promise<any>;
 }
+
+export function parseBody(this: Request) {
+    return new Promise((resolve, reject) => {
+        try {
+            const chunks: any[] = [];
+            this.on("data", (chunk) => {
+                chunks.push(chunk);
+            }).on("end", async () => {
+                const bodyStr = Buffer.concat(chunks).toString();
+                this.body = JSON.parse(bodyStr);
+
+                resolve(this.body);
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
