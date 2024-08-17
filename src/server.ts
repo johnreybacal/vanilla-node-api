@@ -1,15 +1,40 @@
-import { createServer } from "node:http";
+import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { registerComponents } from "./components/register";
 import { baseUrl } from "./config/server";
 import { ControllerManager } from "./controllerManager";
 import { parseBody, Request } from "./types/request";
+import {
+    clientError,
+    created,
+    Response,
+    send,
+    success,
+} from "./types/response";
 
-export const server = createServer(async (incomingMessage, res) => {
+function decorateRequest(incomingMessage: IncomingMessage) {
+    const request: Request = incomingMessage as Request;
+
+    request.parseBody = parseBody;
+
+    return request;
+}
+
+function decorateResponse(serverResponse: ServerResponse) {
+    const response: Response = serverResponse as Response;
+
+    response.send = send;
+    response.success = success;
+    response.created = created;
+    response.clientError = clientError;
+
+    return response;
+}
+
+export const server = createServer(async (incomingMessage, serverResponse) => {
     registerComponents();
 
-    const req: Request = incomingMessage as Request;
-
-    req.parseBody = parseBody;
+    const req = decorateRequest(incomingMessage);
+    const res = decorateResponse(serverResponse);
 
     const method = req.method;
     const url = new URL(req.url!, baseUrl);
@@ -35,23 +60,21 @@ export const server = createServer(async (incomingMessage, res) => {
     try {
         if (method === "GET") {
             if (req.resourceId) {
-                await controller.get(req, res);
+                controller.get(req, res);
             } else {
-                await controller.list(req, res);
+                controller.list(req, res);
             }
         } else if (method === "DELETE") {
-            await controller.delete(req, res);
+            controller.delete(req, res);
         } else if (method === "POST") {
-            await controller.insert(req, res);
+            controller.insert(req, res);
         } else if (method === "PATCH" || method === "PUT") {
-            await controller.update(req, res);
+            controller.update(req, res);
         }
     } catch (e) {
         console.log(e);
         res.statusCode = 500;
         res.write(JSON.stringify(e));
+        res.end();
     }
-
-    console.log(`${method} ${url.pathname} - ${res.statusCode}`);
-    res.end();
 });

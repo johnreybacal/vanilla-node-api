@@ -1,6 +1,6 @@
-import { ServerResponse } from "http";
 import { Repository } from "../repository/repository";
 import { Request } from "../types/request";
+import { Response } from "../types/response";
 import { RestControllerInterface } from "./controller.interface";
 
 export abstract class RestController<T> implements RestControllerInterface {
@@ -10,69 +10,26 @@ export abstract class RestController<T> implements RestControllerInterface {
         this.service = service;
     }
 
-    protected async handle({
-        res,
-        cb,
-        status,
-    }: {
-        res: ServerResponse;
-        cb: Function;
-        status: number;
-    }) {
-        const result = await cb();
-
-        res.statusCode = status;
-        res.write(JSON.stringify(result));
+    async list(_req: Request, res: Response) {
+        const result = await this.service.all();
+        res.success(result);
     }
-    async list(req: Request, res: ServerResponse) {
-        const cb = async () => {
-            return await this.service.all();
-        };
-        await this.handle({
-            res,
-            cb,
-            status: 200,
-        });
+    async get(req: Request, res: Response) {
+        const result = await this.service.get(req.resourceId);
+        res.success(result);
     }
-    async get(req: Request, res: ServerResponse) {
-        const cb = async () => {
-            return await this.service.get(req.resourceId);
-        };
-        await this.handle({
-            res,
-            cb,
-            status: 200,
-        });
+    async insert(req: Request, res: Response) {
+        await req.parseBody();
+        const result = await this.service.insert(req.body);
+        res.created(result);
     }
-    async insert(req: Request, res: ServerResponse) {
-        const cb = async () => {
-            return await this.service.insert(await req.parseBody());
-        };
-        await this.handle({
-            res,
-            cb,
-            status: 201,
-        });
+    async update(req: Request, res: Response): Promise<void> {
+        await req.parseBody();
+        const result = await this.service.update(req.resourceId, req.body);
+        res.success(result);
     }
-    async update(req: Request, res: ServerResponse): Promise<void> {
-        const cb = async () => {
-            await req.parseBody();
-            return await this.service.update(req.resourceId, req.body);
-        };
-        await this.handle({
-            res,
-            cb,
-            status: 201,
-        });
-    }
-    async delete(req: Request, res: ServerResponse) {
-        const cb = async () => {
-            return await this.service.delete(req.resourceId);
-        };
-        await this.handle({
-            res,
-            cb,
-            status: 200,
-        });
+    async delete(req: Request, res: Response) {
+        const result = await this.service.delete(req.resourceId);
+        res.success(result);
     }
 }
