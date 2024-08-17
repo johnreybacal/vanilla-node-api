@@ -20,11 +20,19 @@ export interface RestControllerInterface {
 
     //POST
     /**
-     * Creates a new resource
+     * Create a new resource
      * @param req
      * @param res
      */
     insert(req: Request, res: ServerResponse): Promise<void>;
+
+    //PATCH
+    /**
+     * Update a resource
+     * @param req
+     * @param res
+     */
+    update(req: Request, res: ServerResponse): Promise<void>;
 
     //DELETE
     /**

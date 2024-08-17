@@ -62,6 +62,16 @@ export abstract class RestController<T> implements RestControllerInterface {
             status: 201,
         });
     }
+    async update(req: Request, res: ServerResponse): Promise<void> {
+        const cb = async () => {
+            return await this.service.update(req.resourceId, req.body);
+        };
+        this.handle({
+            res,
+            cb,
+            status: 201,
+        });
+    }
     async delete(req: Request, res: ServerResponse) {
         const cb = async () => {
             return await this.service.delete(req.resourceId);

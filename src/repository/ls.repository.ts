@@ -47,6 +47,17 @@ export abstract class LocalStorageRepository<T extends Schema>
             }
         });
     }
+    update(id: any, record: T): Promise<T> {
+        return new Promise((resolve, reject) => {
+            try {
+                const result = this.model.update(id, record);
+
+                resolve(result);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
     delete(id: any): Promise<boolean> {
         return new Promise((resolve, reject) => {
             try {

@@ -45,6 +45,8 @@ export const server = createServer((req: Request, res) => {
 
             if (method === "POST") {
                 controller.insert(req, res);
+            } else if (method === "PATCH" || method === "PUT") {
+                controller.update(req, res);
             }
         });
     }
