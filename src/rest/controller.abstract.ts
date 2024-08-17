@@ -19,24 +19,16 @@ export abstract class RestController<T> implements RestControllerInterface {
         cb: Function;
         status: number;
     }) {
-        try {
-            const result = await cb();
+        const result = await cb();
 
-            res.statusCode = status;
-            res.write(JSON.stringify(result));
-        } catch (e) {
-            console.log(e);
-            res.statusCode = 500;
-            res.write(JSON.stringify(e));
-        } finally {
-            res.end();
-        }
+        res.statusCode = status;
+        res.write(JSON.stringify(result));
     }
     async list(req: Request, res: ServerResponse) {
         const cb = async () => {
             return await this.service.all();
         };
-        this.handle({
+        await this.handle({
             res,
             cb,
             status: 200,
@@ -46,7 +38,7 @@ export abstract class RestController<T> implements RestControllerInterface {
         const cb = async () => {
             return await this.service.get(req.resourceId);
         };
-        this.handle({
+        await this.handle({
             res,
             cb,
             status: 200,
@@ -56,7 +48,7 @@ export abstract class RestController<T> implements RestControllerInterface {
         const cb = async () => {
             return await this.service.insert(req.body);
         };
-        this.handle({
+        await this.handle({
             res,
             cb,
             status: 201,
@@ -66,7 +58,7 @@ export abstract class RestController<T> implements RestControllerInterface {
         const cb = async () => {
             return await this.service.update(req.resourceId, req.body);
         };
-        this.handle({
+        await this.handle({
             res,
             cb,
             status: 201,
@@ -76,7 +68,7 @@ export abstract class RestController<T> implements RestControllerInterface {
         const cb = async () => {
             return await this.service.delete(req.resourceId);
         };
-        this.handle({
+        await this.handle({
             res,
             cb,
             status: 200,

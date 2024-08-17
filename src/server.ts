@@ -47,19 +47,29 @@ export const server = createServer(async (incomingMessage, res) => {
     }
 
     const controller = ControllerManager.instance.getController(req.resource!);
-    if (method === "GET") {
-        if (req.resourceId) {
-            controller.get(req, res);
-        } else {
-            controller.list(req, res);
+
+    try {
+        if (method === "GET") {
+            if (req.resourceId) {
+                await controller.get(req, res);
+            } else {
+                await controller.list(req, res);
+            }
+        } else if (method === "DELETE") {
+            await controller.delete(req, res);
+        } else if (method === "POST") {
+            await req.parseBody();
+            await controller.insert(req, res);
+        } else if (method === "PATCH" || method === "PUT") {
+            await req.parseBody();
+            await controller.update(req, res);
         }
-    } else if (method === "DELETE") {
-        controller.delete(req, res);
-    } else if (method === "POST") {
-        await req.parseBody();
-        controller.insert(req, res);
-    } else if (method === "PATCH" || method === "PUT") {
-        await req.parseBody();
-        controller.update(req, res);
+    } catch (e) {
+        console.log(e);
+        res.statusCode = 500;
+        res.write(JSON.stringify(e));
     }
+
+    console.log(`${method} ${url.pathname} - ${res.statusCode}`);
+    res.end();
 });
