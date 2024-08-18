@@ -10,15 +10,15 @@ export abstract class RestController<T> implements RestControllerInterface {
         this.service = service;
     }
 
-    async list(_req: Request, res: Response) {
+    async index(_req: Request, res: Response) {
         const result = await this.service.all();
         res.success(result);
     }
-    async get(req: Request, res: Response) {
+    async show(req: Request, res: Response) {
         const result = await this.service.get(req.resourceId);
         res.success(result);
     }
-    async insert(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         await req.parseBody();
         const result = await this.service.insert(req.body);
         res.created(result);
@@ -28,7 +28,7 @@ export abstract class RestController<T> implements RestControllerInterface {
         const result = await this.service.update(req.resourceId, req.body);
         res.success(result);
     }
-    async delete(req: Request, res: Response) {
+    async destroy(req: Request, res: Response) {
         const result = await this.service.delete(req.resourceId);
         res.success(result);
     }

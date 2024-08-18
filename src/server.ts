@@ -60,14 +60,14 @@ export const server = createServer(async (incomingMessage, serverResponse) => {
     try {
         if (method === "GET") {
             if (req.resourceId) {
-                controller.get(req, res);
+                controller.show(req, res);
             } else {
-                controller.list(req, res);
+                controller.index(req, res);
             }
         } else if (method === "DELETE") {
-            controller.delete(req, res);
+            controller.destroy(req, res);
         } else if (method === "POST") {
-            controller.insert(req, res);
+            controller.create(req, res);
         } else if (method === "PATCH" || method === "PUT") {
             controller.update(req, res);
         }
