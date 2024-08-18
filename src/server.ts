@@ -2,16 +2,8 @@ import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { registerComponents } from "./components/register";
 import { baseUrl } from "./config/server";
 import { ControllerManager } from "./controllerManager";
-import { events } from "./events";
-import { log } from "./listeners/log";
 import { parseBody, Request } from "./types/request";
-import {
-    clientError,
-    created,
-    Response,
-    send,
-    success,
-} from "./types/response";
+import { clientError, created, Response, success } from "./types/response";
 
 function decorateRequest(incomingMessage: IncomingMessage) {
     const request: Request = incomingMessage as Request;
@@ -24,7 +16,6 @@ function decorateRequest(incomingMessage: IncomingMessage) {
 function decorateResponse(serverResponse: ServerResponse) {
     const response: Response = serverResponse as Response;
 
-    response.send = send;
     response.success = success;
     response.created = created;
     response.clientError = clientError;
@@ -34,10 +25,13 @@ function decorateResponse(serverResponse: ServerResponse) {
 
 export const server = createServer(async (incomingMessage, serverResponse) => {
     registerComponents();
-    events.on("log", log);
 
     const req = decorateRequest(incomingMessage);
     const res = decorateResponse(serverResponse);
+
+    res.on("finish", () => {
+        console.log(`${req.method} ${req.url} - ${res.statusCode}`);
+    });
 
     const method = req.method;
     const url = new URL(req.url!, baseUrl);
@@ -78,6 +72,6 @@ export const server = createServer(async (incomingMessage, serverResponse) => {
         console.log(e);
         res.statusCode = 500;
         res.write(JSON.stringify(e));
-        res.send();
+        res.end();
     }
 });
