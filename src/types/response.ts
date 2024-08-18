@@ -1,3 +1,4 @@
+import { events } from "@/events";
 import { ServerResponse } from "http";
 
 export interface Response extends ServerResponse {
@@ -27,7 +28,7 @@ export function clientError(this: Response, error: any, status = 400) {
 }
 export function send(this: Response) {
     const req = this.req;
-    console.log(`${req.method} ${req.url} - ${this.statusCode}`);
+    events.emit("log", this);
     this.end();
     return this;
 }

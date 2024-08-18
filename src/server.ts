@@ -2,6 +2,8 @@ import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { registerComponents } from "./components/register";
 import { baseUrl } from "./config/server";
 import { ControllerManager } from "./controllerManager";
+import { events } from "./events";
+import { log } from "./listeners/log";
 import { parseBody, Request } from "./types/request";
 import {
     clientError,
@@ -32,6 +34,7 @@ function decorateResponse(serverResponse: ServerResponse) {
 
 export const server = createServer(async (incomingMessage, serverResponse) => {
     registerComponents();
+    events.on("log", log);
 
     const req = decorateRequest(incomingMessage);
     const res = decorateResponse(serverResponse);
@@ -75,6 +78,6 @@ export const server = createServer(async (incomingMessage, serverResponse) => {
         console.log(e);
         res.statusCode = 500;
         res.write(JSON.stringify(e));
-        res.end();
+        res.send();
     }
 });
