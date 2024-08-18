@@ -4,6 +4,7 @@
     "description": "RESTful API written in vanilla NodeJS",
     "main": "serve.ts",
     "scripts": {
+        "dev": "npx tsx --env-file=.env --watch serve.ts",
         "serve": "npx tsx --env-file=.env serve.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
