@@ -3,7 +3,13 @@ import { registerComponents } from "./components/register";
 import { baseUrl } from "./config/server";
 import { ControllerManager } from "./controllerManager";
 import { parseBody, Request } from "./types/request";
-import { clientError, created, Response, success } from "./types/response";
+import {
+    clientError,
+    created,
+    notFound,
+    Response,
+    success,
+} from "./types/response";
 
 function decorateRequest(incomingMessage: IncomingMessage) {
     const request: Request = incomingMessage as Request;
@@ -19,6 +25,7 @@ function decorateResponse(serverResponse: ServerResponse) {
     response.success = success;
     response.created = created;
     response.clientError = clientError;
+    response.notFound = notFound;
 
     return response;
 }

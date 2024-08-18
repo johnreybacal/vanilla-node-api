@@ -16,7 +16,11 @@ export abstract class RestController<T> implements RestControllerInterface {
     }
     async show(req: Request, res: Response) {
         const result = await this.service.get(req.resourceId);
-        res.success(result);
+        if (result) {
+            res.success(result);
+        } else {
+            res.notFound();
+        }
     }
     async create(req: Request, res: Response) {
         await req.parseBody();
@@ -26,10 +30,18 @@ export abstract class RestController<T> implements RestControllerInterface {
     async update(req: Request, res: Response): Promise<void> {
         await req.parseBody();
         const result = await this.service.update(req.resourceId, req.body);
-        res.success(result);
+        if (result) {
+            res.success(result);
+        } else {
+            res.notFound();
+        }
     }
     async destroy(req: Request, res: Response) {
         const result = await this.service.delete(req.resourceId);
-        res.success(result);
+        if (result) {
+            res.success(result);
+        } else {
+            res.notFound();
+        }
     }
 }
