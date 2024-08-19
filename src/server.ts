@@ -2,14 +2,14 @@ import { createServer, IncomingMessage, ServerResponse } from "node:http";
 import { registerComponents } from "./components/register";
 import { baseUrl } from "./config/server";
 import { ControllerManager } from "./controllerManager";
-import { parseBody, Request } from "./types/request";
+import { parseBody, Request } from "./streams/request";
 import {
     clientError,
     created,
     notFound,
     Response,
     success,
-} from "./types/response";
+} from "./streams/response";
 
 function decorateRequest(incomingMessage: IncomingMessage) {
     const request: Request = incomingMessage as Request;
