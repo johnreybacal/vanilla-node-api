@@ -5,6 +5,7 @@ const router = new Router("users");
 
 router.get("/", userController.index);
 router.get("/longDelay", userController.longDelay);
+router.get("/streaming", userController.streaming);
 router.get("/:id", userController.show);
 router.post("/", userController.create);
 router.put("/:id", userController.update);
