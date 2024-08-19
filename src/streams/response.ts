@@ -1,9 +1,29 @@
 import { ServerResponse } from "http";
 
 export interface Response extends ServerResponse {
+    /**
+     * Returns a successful response
+     * @param data
+     * @param status defaults to 200
+     * @returns
+     */
     success: (data: any, status?: number) => Response;
+    /**
+     * Returns a successful response for create operations (201)
+     * @param data
+     * @returns
+     */
     created: (data: any) => Response;
+    /**
+     * Returns a client error
+     * @param error
+     * @param status defaults to 400
+     * @returns
+     */
     clientError: (error: any, status?: number) => Response;
+    /**
+     * Returns a not found error (404)
+     */
     notFound: (error?: any) => Response;
 }
 
