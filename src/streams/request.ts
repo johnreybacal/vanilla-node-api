@@ -1,5 +1,4 @@
 import { IncomingMessage } from "http";
-import { baseUrl } from "../config/server";
 
 export interface Request extends IncomingMessage {
     /**
@@ -7,13 +6,9 @@ export interface Request extends IncomingMessage {
      */
     body: any;
     /**
-     * Identifies the REST resource
+     * Request parameters
      */
-    resource: string;
-    /**
-     * Identifies the record of a REST resource
-     */
-    resourceId: string;
+    params: any;
     /**
      * Parses the stream into the body property
      *
@@ -44,17 +39,7 @@ function parseBody(this: Request) {
 export function decorateRequest(incomingMessage: IncomingMessage): Request {
     const req: Request = incomingMessage as Request;
 
-    const url = new URL(req.url!, baseUrl);
-    const urlSegments = url.pathname.split("/").filter((seg) => seg);
-
-    if (urlSegments[0]) {
-        req.resource = urlSegments[0];
-
-        if (urlSegments[1]) {
-            req.resourceId = urlSegments[1];
-        }
-    }
-
+    req.params = {};
     req.parseBody = parseBody;
 
     return req;

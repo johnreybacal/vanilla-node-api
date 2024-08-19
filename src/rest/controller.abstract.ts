@@ -10,38 +10,38 @@ export abstract class RestController<T> implements RestControllerInterface {
         this.service = service;
     }
 
-    async index(_req: Request, res: Response) {
+    index = async (_req: Request, res: Response) => {
         const result = await this.service.all();
         res.success(result);
-    }
-    async show(req: Request, res: Response) {
-        const result = await this.service.get(req.resourceId);
+    };
+    show = async (req: Request, res: Response) => {
+        const result = await this.service.get(req.params.id);
         if (result) {
             res.success(result);
         } else {
             res.notFound();
         }
-    }
-    async create(req: Request, res: Response) {
+    };
+    create = async (req: Request, res: Response) => {
         await req.parseBody();
         const result = await this.service.insert(req.body);
         res.created(result);
-    }
-    async update(req: Request, res: Response): Promise<void> {
+    };
+    update = async (req: Request, res: Response) => {
         await req.parseBody();
-        const result = await this.service.update(req.resourceId, req.body);
+        const result = await this.service.update(req.params.id, req.body);
         if (result) {
             res.success(result);
         } else {
             res.notFound();
         }
-    }
-    async destroy(req: Request, res: Response) {
-        const result = await this.service.delete(req.resourceId);
+    };
+    destroy = async (req: Request, res: Response) => {
+        const result = await this.service.delete(req.params.id);
         if (result) {
             res.success(result);
         } else {
             res.notFound();
         }
-    }
+    };
 }

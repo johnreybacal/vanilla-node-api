@@ -1,9 +1,11 @@
 import { RestController } from "../../rest/controller.abstract";
-import { Service } from "./service";
+import { userService } from "./service";
 import { User } from "./type";
 
-export class UserController extends RestController<User> {
+class Controller extends RestController<User> {
     constructor() {
-        super(new Service());
+        super(userService);
     }
 }
+
+export const userController = new Controller();

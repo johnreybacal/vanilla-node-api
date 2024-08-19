@@ -1,6 +1,5 @@
-import { ControllerManager } from "../controllerManager";
-import { UserController } from "./user/controller";
+import userRouter from "./user/route";
 
-export function registerComponents() {
-    ControllerManager.instance.register("users", new UserController());
+export function registerRoutes() {
+    return [userRouter];
 }

@@ -1,6 +1,6 @@
-import { ServerResponse } from "http";
 import { Repository } from "../repository/repository";
 import { Request } from "../streams/request";
+import { Response } from "../streams/response";
 
 export interface RestControllerInterface {
     service: Repository<any>;
@@ -12,11 +12,11 @@ export interface RestControllerInterface {
      * @param req
      * @param res
      */
-    index(req: Request, res: ServerResponse): Promise<void>;
+    index(req: Request, res: Response): Promise<void>;
     /**
      * Get a specific resource
      */
-    show(req: Request, res: ServerResponse): Promise<void>;
+    show(req: Request, res: Response): Promise<void>;
 
     //POST
     /**
@@ -24,7 +24,7 @@ export interface RestControllerInterface {
      * @param req
      * @param res
      */
-    create(req: Request, res: ServerResponse): Promise<void>;
+    create(req: Request, res: Response): Promise<void>;
 
     //PATCH/PUT
     /**
@@ -32,7 +32,7 @@ export interface RestControllerInterface {
      * @param req
      * @param res
      */
-    update(req: Request, res: ServerResponse): Promise<void>;
+    update(req: Request, res: Response): Promise<void>;
 
     //DELETE
     /**
@@ -40,5 +40,5 @@ export interface RestControllerInterface {
      * @param req
      * @param res
      */
-    destroy(req: Request, res: ServerResponse): Promise<void>;
+    destroy(req: Request, res: Response): Promise<void>;
 }
