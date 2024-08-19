@@ -1,6 +1,6 @@
 import { Repository } from "../repository/repository";
-import { Request } from "../types/request";
-import { Response } from "../types/response";
+import { Request } from "../streams/request";
+import { Response } from "../streams/response";
 import { RestControllerInterface } from "./controller.interface";
 
 export abstract class RestController<T> implements RestControllerInterface {

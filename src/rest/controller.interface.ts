@@ -1,6 +1,6 @@
 import { ServerResponse } from "http";
 import { Repository } from "../repository/repository";
-import { Request } from "../types/request";
+import { Request } from "../streams/request";
 
 export interface RestControllerInterface {
     service: Repository<any>;
