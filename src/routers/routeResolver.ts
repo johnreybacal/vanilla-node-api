@@ -59,8 +59,7 @@ export class RouteResolver {
                 if (route.method === req.method) {
                     if (urlMatch(route, req.url!)) {
                         setParams(req, route.params);
-                        const callback = route.callback(req, res);
-                        return callback;
+                        return route.callback(req, res);
                     }
                 }
             }
