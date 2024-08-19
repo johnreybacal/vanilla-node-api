@@ -1,4 +1,5 @@
 import { IncomingMessage } from "http";
+import { baseUrl } from "../config/server";
 
 export interface Request extends IncomingMessage {
     /**
@@ -22,7 +23,7 @@ export interface Request extends IncomingMessage {
     parseBody: () => Promise<any>;
 }
 
-export function parseBody(this: Request) {
+function parseBody(this: Request) {
     return new Promise((resolve, reject) => {
         try {
             const chunks: any[] = [];
@@ -38,4 +39,23 @@ export function parseBody(this: Request) {
             reject(e);
         }
     });
+}
+
+export function decorateRequest(incomingMessage: IncomingMessage): Request {
+    const req: Request = incomingMessage as Request;
+
+    const url = new URL(req.url!, baseUrl);
+    const urlSegments = url.pathname.split("/").filter((seg) => seg);
+
+    if (urlSegments[0]) {
+        req.resource = urlSegments[0];
+
+        if (urlSegments[1]) {
+            req.resourceId = urlSegments[1];
+        }
+    }
+
+    req.parseBody = parseBody;
+
+    return req;
 }
