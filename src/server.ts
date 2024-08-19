@@ -11,8 +11,8 @@ import { decorateResponse } from "./streams/response";
 })();
 
 export const server = createServer(async (incomingMessage, serverResponse) => {
-    const req = decorateRequest(incomingMessage);
     const res = decorateResponse(serverResponse);
+    const req = decorateRequest(incomingMessage);
 
     RouteResolver.instance.resolve(req, res);
 });

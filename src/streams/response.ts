@@ -32,6 +32,7 @@ function notFound(
 }
 
 export function decorateResponse(serverResponse: ServerResponse): Response {
+    const startDate = new Date();
     const res: Response = serverResponse as Response;
 
     res.setHeader("Content-Type", "application/json");
@@ -43,7 +44,10 @@ export function decorateResponse(serverResponse: ServerResponse): Response {
 
     res.on("finish", () => {
         const req = res.req;
-        console.log(`${req.method} ${req.url} - ${res.statusCode}`);
+        const timeElapsed = new Date().getTime() - startDate.getTime();
+        console.log(
+            `${req.method} ${req.url} ${res.statusCode} ${timeElapsed}ms`
+        );
     });
 
     return res;
